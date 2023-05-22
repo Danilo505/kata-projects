@@ -1,0 +1,52 @@
+import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        String[] ranks = {"2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"};
+        List<String> deck = new ArrayList<String>(Arrays.asList(ranks));
+        Collections.shuffle(deck);
+        List<String> deckSteve = deck.subList(0, 3);
+        List<String> deckJosh = deck.subList(3, 6);
+        System.out.println("Cartas de Steve: " + deckSteve);
+        System.out.println("Cartas de Josh: " + deckJosh);
+        String result = winner(deckSteve, deckJosh);
+        System.out.println(result);
+    }
+    public static String winner(List<String> deckSteve, List<String> deckJosh) {
+        Map<String, Integer> card_values = new HashMap<String, Integer>();
+        card_values.put("2", 2);
+        card_values.put("3", 3);
+        card_values.put("4", 4);
+        card_values.put("5", 5);
+        card_values.put("6", 6);
+        card_values.put("7", 7);
+        card_values.put("8", 8);
+        card_values.put("9", 9);
+        card_values.put("T", 10);
+        card_values.put("J", 11);
+        card_values.put("Q", 12);
+        card_values.put("K", 13);
+        card_values.put("A", 14);
+
+        int steve_score = 0;
+        int josh_score = 0;
+        
+        for (int i = 0; i < deckSteve.size(); i++) {
+            String steve_card = deckSteve.get(i);
+            String josh_card = deckJosh.get(i);
+
+            if (card_values.get(steve_card) > card_values.get(josh_card)) {
+                steve_score += 1;
+            } else if (card_values.get(josh_card) > card_values.get(steve_card)) {
+                josh_score += 1;
+            }
+        }
+
+        if (steve_score > josh_score) {
+            return String.format("Steve wins %d to %d.", steve_score, josh_score);
+        } else if (josh_score > steve_score) {
+            return String.format("Josh wins %d to %d.", josh_score, steve_score);
+        } else {
+            return "Tie.";
+        }
+    }
+}
